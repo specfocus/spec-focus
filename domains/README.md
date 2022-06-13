@@ -1,0 +1,1 @@
+# This domains folder is the old version of the domains submodule (https://github.com/specfocus/domains.git)

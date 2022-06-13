@@ -1,1 +1,2 @@
 # spec-focus
+** main spacifications **

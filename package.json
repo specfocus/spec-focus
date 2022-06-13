@@ -1,0 +1,30 @@
+{
+  "name": "@specfocus/spec-focus",
+  "description": "Main specifications",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/specfocus/release.git"
+  },
+  "main": "src/index.ts",
+  "types": "types",
+  "scripts": {
+    "release": "node ../../scripts/publish main-focus ./release/packages",
+    "build": "rimraf ../../release/packages/main-focus && tsc",
+    "prebuild-": "tslint -c tslint.json -p tsconfig.json --fix",
+    "test": "jest"
+  },
+  "author": "Lucas M. Oromi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.3.0",
+    "jest": "^27.4.5",
+    "jest-extended": "^1.2.0",
+    "ts-jest": "^27.1.1",
+    "ts-node": "^10.4.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.6.3"
+  }
+}

@@ -1,0 +1,2 @@
+# spec-focus
+** core specifications **

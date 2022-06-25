@@ -1,0 +1,1 @@
+export { default as isArray } from '../many/is-array';

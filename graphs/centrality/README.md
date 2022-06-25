@@ -1,0 +1,5 @@
+# Pathfinding
+Paths are fundamental to graph analytics and algorithms, so this is where we’ll start our chapters with specific algorithm examples. Finding shortest paths is probably the most frequent task performed with graph algorithms and is a precursor for several different types of analysis. The shortest path is the traversal route with the fewest hops or lowest weight. If the graph is directed, then it’s the shortest path between two nodes as allowed by the relationship directions.
+
+*PATH TYPES*
+The average shortest path is used to consider the overall efficiency and resiliency of networks, such as understanding the average distance between subway stations. Sometimes we may also want to understand the longest optimized route for situations such as determining which subway stations are the farthest apart or have the most number of stops between them even when the best route is chosen. In this case, we’d use the diameter of a graph to find the longest shortest path between all node pairs.

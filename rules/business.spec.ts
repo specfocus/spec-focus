@@ -16,7 +16,7 @@ const progress = (input: number, { offset = 0 }, ctx: BusinessContext) => {
   const increment = ctx.rules.multiplication([input, ctx.numbers('factor')]);
   const result = ctx.rules.summation([offset, increment]);
   return result;
-}
+};
 
 const RULES = {
   one,
@@ -30,16 +30,22 @@ type Rules = typeof RULES;
 type BusinessContext = RuleContext<Rules>;
 type RuleNames = keyof Rules;
 
+const DEFAULT_DEPENDENCIES = {
+};
+
 const data = {
   flags: [],
   rules: RULES,
   vars: { 'factor': 10 }
 };
-const ctx = freeze<Rules>({
-  flags: [],
-  rules: RULES,
-  vars: { 'factor': 10 }
-});
+const ctx = freeze<Rules, typeof DEFAULT_DEPENDENCIES>(
+  {
+    flags: [],
+    rules: RULES,
+    vars: { 'factor': 10 }
+  },
+  <K extends keyof typeof DEFAULT_DEPENDENCIES>(name: K) => DEFAULT_DEPENDENCIES[name]
+);
 
 describe('constracts should work by default', () => {
   it('should error if we try to modify a rule after the rules are frozen', () => {

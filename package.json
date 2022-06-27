@@ -10,6 +10,14 @@
   "main": "src/index.ts",
   "types": "types",
   "scripts": {
+    "clean": "rimraf dist",
+    "start-dx": "tsdx watch",
+    "build-dx": "tsdx build",
+    "test-dx": "tsdx test",
+    "lint-dx": "tsdx lint",
+    "prepare-dx": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
     "build": "rimraf dist && tsc",
     "lint": "tslint -c tslint.json -p tsconfig.json --fix",
     "exjest": "yarn node --experimental-vm-modules $(yarn bin jest)",
@@ -22,7 +30,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "@types/node": "^16.3.0",
-    "jest": "^27.4.5",
+    "jest": "^28.1.0",
     "jest-extended": "^1.2.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.1.1",

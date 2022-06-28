@@ -1,14 +1,12 @@
 {
   "name": "@specfocus/spec-focus",
   "description": "Main specifications",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/specfocus/spec-focus.git"
   },
-  "main": "src/index.ts",
-  "types": "types",
   "scripts": {
     "clean": "rimraf dist",
     "start-dx": "tsdx watch",

@@ -101,9 +101,9 @@ export default class ObjectSchema<
 > extends AnythingSchema<TIn, TConfig> {
   fields: TShape = Object.create(null);
 
-  spec: ObjectSchemaSpec;
+  declare spec: ObjectSchemaSpec;
 
-  readonly __outputType: ResolveFlags<_<TIn>, TConfig['flags']>;
+  declare readonly __outputType: ResolveFlags<_<TIn>, TConfig['flags']>;
 
   private _sortErrors = defaultSort;
   private _nodes: readonly string[] = [];

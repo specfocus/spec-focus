@@ -1,3 +1,4 @@
+import { MaybePromise } from '../maybe';
 import type { GenericRules, RuleContext } from '../rules/types';
 
 export interface TaskContext<
@@ -5,23 +6,14 @@ export interface TaskContext<
   Rules extends GenericRules = GenericRules,
   Dependencies extends {} = {}
 > extends RuleContext<Rules, Dependencies> {
-  readonly resolve: <Name extends keyof Resources>(name: Name, ...args: string[]) => PromiseLike<Resources[Name]>;
+  readonly resolve: <Name extends keyof Resources>(name: Name, ...args: string[]) => MaybePromise<Resources[Name]>;
 }
 
-export type PromiseLike<T> = T | Promise<T>;
 export type Task<
-  Output,
+  Result,
   Params extends {},
   Context extends TaskContext
 > = (
   params: Params,
   context: Context
-) => PromiseLike<Output>;
-export type PullTask<
-  Output,
-  Params extends {},
-  Context extends TaskContext
-> = (
-  params: Params,
-  context: Context
-) => AsyncIterable<Output>;
+) => MaybePromise<Result>;

@@ -1,9 +1,8 @@
-import asyncRange from './async-range';
-import range from './range';
+import { range, pullRange } from './range';
 
 const TASKS = {
   range,
-  asyncRange,
+  pullRange,
 };
 
 export default TASKS;

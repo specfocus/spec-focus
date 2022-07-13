@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import isAbsent from '../anything/is-absent';
 import type { Defined, Maybe, NotNull, Optionals } from '../maybe';
 import type { Thunk } from '../functions/thunk';
@@ -40,7 +40,7 @@ export { create };
 export default class StringSchema<
   TType extends Maybe<string> = string | undefined,
   TConfig extends AnyConfig = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   constructor() {
     super({ type: 'string' });
 
@@ -215,7 +215,7 @@ create.prototype = StringSchema.prototype;
 export default interface StringSchema<
   TType extends Maybe<string> = string | undefined,
   TConfig extends AnyConfig = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   default<D extends Maybe<TType>>(
     def: Thunk<D>,
   ): StringSchema<TType, ToggleDefault<TConfig, D>>;

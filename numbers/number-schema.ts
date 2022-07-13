@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import isAbsent from '../anything/is-absent';
 import type { Defined, Maybe, NotNull } from '../maybe';
 import type { Thunk } from '../functions/thunk';
@@ -22,7 +22,7 @@ export function create() {
 export default class NumberSchema<
   TType extends Maybe<number> = number | undefined,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   constructor() {
     super({ type: 'number' });
 
@@ -145,7 +145,7 @@ create.prototype = NumberSchema.prototype;
 export default interface NumberSchema<
   TType extends Maybe<number> = number | undefined,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   strip(): NumberSchema<TType, SetFlag<TConfig, 's'>>;
 
   default<D extends Maybe<TType>>(

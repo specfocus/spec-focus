@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import type { Defined, NotNull, _ } from '../maybe';
 import type { Maybe, Optionals, Preserve } from '../maybe';
 import type { ResolveOptions } from '../conditions';
@@ -61,13 +61,13 @@ export type AssertsShape<S extends ObjectShape> = MakePartial<{
 }> & { [k: string]: any };
 
 export type PartialSchema<S extends ObjectShape> = {
-  [K in keyof S]: S[K] extends AnythingSchema ? ReturnType<S[K]['optional']> : S[K];
+  [K in keyof S]: S[K] extends Validatable ? ReturnType<S[K]['optional']> : S[K];
 };
 
 export type DeepPartialSchema<S extends ObjectShape> = {
   [K in keyof S]: S[K] extends ObjectSchema<any, any, any>
     ? ReturnType<S[K]['deepPartial']>
-    : S[K] extends AnythingSchema
+    : S[K] extends Validatable
     ? ReturnType<S[K]['optional']>
     : S[K];
 };
@@ -98,7 +98,7 @@ export default class ObjectSchema<
   TShape extends ObjectShape = {},
   TConfig extends Config<any, any> = Config<AnyObject, 'd'>,
   TIn extends Maybe<AssertsShape<TShape>> = AssertsShape<TShape> | undefined,
-> extends AnythingSchema<TIn, TConfig> {
+> extends Validatable<TIn, TConfig> {
   fields: TShape = Object.create(null);
 
   declare spec: ObjectSchemaSpec;
@@ -182,7 +182,7 @@ export default class ObjectSchema<
           parent: intermediateValue,
         });
 
-        const fieldSpec = field instanceof AnythingSchema ? field.spec : undefined;
+        const fieldSpec = field instanceof Validatable ? field.spec : undefined;
         const strict = fieldSpec?.strict;
 
         if (fieldSpec?.strip) {
@@ -323,8 +323,8 @@ export default class ObjectSchema<
       if (target === undefined) {
         nextFields[field] = schemaOrRef;
       } else if (
-        target instanceof AnythingSchema &&
-        schemaOrRef instanceof AnythingSchema
+        target instanceof Validatable &&
+        schemaOrRef instanceof Validatable
       ) {
         nextFields[field] = schemaOrRef.concat(target);
       }
@@ -393,7 +393,7 @@ export default class ObjectSchema<
   partial() {
     const partial: any = {};
     for (const [key, schema] of Object.entries(this.fields)) {
-      partial[key] = schema instanceof AnythingSchema ? schema.optional() : schema;
+      partial[key] = schema instanceof Validatable ? schema.optional() : schema;
     }
 
     return this.setFields(partial as PartialSchema<TShape>);
@@ -409,7 +409,7 @@ export default class ObjectSchema<
       if (schema instanceof ObjectSchema) partial[key] = schema.deepPartial();
       else
         partial[key] =
-          schema instanceof AnythingSchema ? schema.optional() : schema;
+          schema instanceof Validatable ? schema.optional() : schema;
     }
 
     return this.setFields(partial as DeepPartialSchema<TShape>);
@@ -530,7 +530,7 @@ export default interface ObjectSchema<
   TShape extends ObjectShape,
   TConfig extends Config<any, any> = Config<AnyObject, 'd'>,
   TIn extends Maybe<AssertsShape<TShape>> = AssertsShape<TShape> | undefined,
-> extends AnythingSchema<TIn, TConfig> {
+> extends Validatable<TIn, TConfig> {
   default<D extends Maybe<AnyObject>>(
     def: Thunk<D>,
   ): ObjectSchema<TShape, ToggleDefault<TConfig, D>, TIn>;

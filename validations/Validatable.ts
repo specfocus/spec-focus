@@ -16,10 +16,10 @@ import type { InternalOptions, ValidateOptions } from '../validations/options';
 import printValue from '../validations/print-value';
 import runTests from '../validations/run-tests';
 import toArray from '../validations/to-array';
-import isAbsent from './is-absent';
+import isAbsent from '../anything/is-absent';
 import type { Defined, Maybe, Preserve } from '../maybe';
 
-export default abstract class AnythingSchema<
+export default abstract class Validatable<
   TType = any,
   TConfig extends Config<any, any> = Config,
 > {
@@ -705,7 +705,7 @@ export default abstract class AnythingSchema<
     return next;
   }
 
-  strip(strip = true): AnythingSchema<TType, SetFlag<TConfig, 's'>> {
+  strip(strip = true): Validatable<TType, SetFlag<TConfig, 's'>> {
     const next = this.clone();
     next.spec.strip = strip;
     return next as any;
@@ -739,7 +739,7 @@ export default abstract class AnythingSchema<
 }
 
 
-export default interface AnythingSchema<
+export default interface Validatable<
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   TType = any,
   TConfig extends Config<any, any> = Config,
@@ -754,17 +754,17 @@ export default interface AnythingSchema<
     value: any,
     options?: ValidateOptions<TConfig['context']>,
   ): any;
-  equals: AnythingSchema['oneOf'];
-  is: AnythingSchema['oneOf'];
-  not: AnythingSchema['notOneOf'];
-  nope: AnythingSchema['notOneOf'];
+  equals: Validatable['oneOf'];
+  is: Validatable['oneOf'];
+  not: Validatable['notOneOf'];
+  nope: Validatable['notOneOf'];
 }
 
 // @ts-expect-error
-AnythingSchema.prototype.__isSchema__ = true;
+Validatable.prototype.__isSchema__ = true;
 
 for (const method of ['validate', 'validateSync'])
-  AnythingSchema.prototype[`${method}At` as 'validateAt' | 'validateSyncAt'] =
+  Validatable.prototype[`${method}At` as 'validateAt' | 'validateSyncAt'] =
     function (path: string, value: any, options: ValidateOptions = {}) {
       const { parent, parentPath, schema } = getIn(
         this,
@@ -780,7 +780,7 @@ for (const method of ['validate', 'validateSync'])
     };
 
 for (const alias of ['equals', 'is'] as const)
-  AnythingSchema.prototype[alias] = AnythingSchema.prototype.oneOf;
+  Validatable.prototype[alias] = Validatable.prototype.oneOf;
 
 for (const alias of ['not', 'nope'] as const)
-  AnythingSchema.prototype[alias] = AnythingSchema.prototype.notOneOf;
+  Validatable.prototype[alias] = Validatable.prototype.notOneOf;

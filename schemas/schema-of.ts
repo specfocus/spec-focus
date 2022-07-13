@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import { Maybe } from '../maybe';
 import DateSchema from '../dates/date-schema';
 import Lazy from '../lazy/lazy-schema';
@@ -24,7 +24,7 @@ export type SchemaOf<T, CustomTypes = never> = [T] extends [Array<infer E>]
   : T extends Date
   ? DateSchema<T>
   : T extends CustomTypes
-  ? AnythingSchema<T, Config>
+  ? Validatable<T, Config>
   : [T] extends [AnyObject]
   ? ObjectSchema<{
       [k in keyof T]-?:

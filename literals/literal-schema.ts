@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import type { Defined, Maybe, Optionals } from '../maybe';
 import type { Thunk } from '../functions/thunk';
 import type { Config, ToggleDefault } from '../schemas/config';
@@ -7,7 +7,7 @@ import type { Message } from '../messages';
 export declare class LiteralSchema<
   TType = any,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   default<D extends Maybe<TType>>(
     def: Thunk<D>,
   ): LiteralSchema<TType, ToggleDefault<TConfig, D>>;
@@ -16,7 +16,7 @@ export declare class LiteralSchema<
     schema: LiteralSchema<IT, IC>,
   ): LiteralSchema<NonNullable<TType> | IT, TConfig & IC>;
   concat<IT, IC extends Config<any, any>>(
-    schema: AnythingSchema<IT, IC>,
+    schema: Validatable<IT, IC>,
   ): LiteralSchema<NonNullable<TType> | Optionals<IT>, TConfig & IC>;
   concat(schema: this): this;
 
@@ -30,7 +30,7 @@ export declare class LiteralSchema<
   nonNullable(): LiteralSchema<Exclude<TType, null>, TConfig>;
 }
 
-const Mixed: typeof LiteralSchema = AnythingSchema as any;
+const Mixed: typeof LiteralSchema = Validatable as any;
 
 export default Mixed;
 

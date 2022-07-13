@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import Lazy from '../lazy/lazy-schema';
 import { Config } from './config';
 
@@ -17,7 +17,7 @@ export type { Struct } from '../structs';
 export type { Tuple } from '../tuples';
 export type { Value } from '../values';
 
-export type AnySchema<TType = any, C extends Config = any> = AnythingSchema<
+export type AnySchema<TType = any, C extends Config = any> = Validatable<
   TType,
   C
 >;

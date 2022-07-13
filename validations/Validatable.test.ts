@@ -20,7 +20,7 @@ import type {
 } from '../shapes/shape-schema';
 import string from '../strings';
 import StringSchema from '../strings/string-schema';
-import AnythingSchema from './anything-schema';
+import Validatable from './Validatable';
 import type { _ } from '../maybe';
 import { Preserve } from '../maybe';
 
@@ -239,7 +239,7 @@ describe('SchemaOf', () => {
   };
 
   type PersonSchema = SchemaOf<Person>;
-  const _b: AnythingSchema<
+  const _b: Validatable<
     string,
     Config<AnyObject, ''>
   > = null as any as StringSchema<string, Config<AnyObject, ''>>;

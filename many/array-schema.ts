@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import isAbsent from '../anything/is-absent';
 import isSchema from '../schemas/is-schema';
 import type { Defined, Maybe, NotNull } from '../maybe';
@@ -31,7 +31,7 @@ export default class ArraySchema<
   T extends AnySchema | Lazy<any, any>,
   C extends Config<any, any> = Config,
   TIn extends Maybe<Asserts<T>[]> = Asserts<T>[] | undefined
-> extends AnythingSchema<TIn, C> {
+> extends Validatable<TIn, C> {
   innerType?: T;
 
   constructor(type?: T) {
@@ -293,7 +293,7 @@ export default interface ArraySchema<
   T extends AnySchema | Lazy<any, any>,
   C extends Config<any, any> = Config,
   TIn extends Maybe<Asserts<T>[]> = Asserts<T>[] | undefined
-> extends AnythingSchema<TIn, C> {
+> extends Validatable<TIn, C> {
   default<D extends Maybe<TIn>>(
     def: Thunk<D>,
   ): ArraySchema<T, ToggleDefault<C, D>, TIn>;

@@ -1,5 +1,5 @@
 import type { Shape } from '../anything';
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import isAbsent from '../anything/is-absent';
 import type { Defined, Maybe, NotNull } from '../maybe';
 import type { Thunk } from '../functions/thunk';
@@ -26,7 +26,7 @@ export function create() {
 export default class DateSchema<
   TType extends Maybe<Date> = Date | undefined,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   static INVALID_DATE = invalidDate;
 
   constructor() {
@@ -102,7 +102,7 @@ create.INVALID_DATE = invalidDate;
 export default interface DateSchema<
   TType extends Maybe<Date>,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   default<D extends Maybe<TType>>(
     def: Thunk<D>,
   ): DateSchema<TType, ToggleDefault<TConfig, D>>;

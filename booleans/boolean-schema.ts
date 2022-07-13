@@ -1,4 +1,4 @@
-import AnythingSchema from '../anything/anything-schema';
+import Validatable from '../validations/Validatable';
 import isAbsent from '../anything/is-absent';
 import { Defined, Maybe, NotNull } from '../maybe';
 import { Thunk } from '../functions';
@@ -19,12 +19,12 @@ export function create() {
 export default class BooleanSchema<
   TType extends Maybe<boolean> = boolean | undefined,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   constructor() {
     super({ type: 'boolean' });
 
     this.withMutation(() => {
-      this.transform(function (value) {
+      this.transform(value => {
         if (!this.isType(value)) {
           if (/^(true|1)$/i.test(String(value))) return true;
           if (/^(false|0)$/i.test(String(value))) return false;
@@ -70,7 +70,7 @@ create.prototype = BooleanSchema.prototype;
 export default interface BooleanSchema<
   TType extends Maybe<boolean>,
   TConfig extends Config<any, any> = Config
-> extends AnythingSchema<TType, TConfig> {
+> extends Validatable<TType, TConfig> {
   default<D extends Maybe<TType>>(
     def: Thunk<D>,
   ): BooleanSchema<TType, ToggleDefault<TConfig, D>>;

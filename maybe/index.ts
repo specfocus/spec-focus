@@ -11,7 +11,7 @@ export { type IsNever } from './never';
 
 export type Maybe<T> = T | Nil;
 
-export type MaybePromise<T> = Promise<T> | T;
+export type MaybePromise<T> = PromiseLike<T> | T;
 
 export type Optionals<T> = Extract<T, null | undefined>;
 

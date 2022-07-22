@@ -218,10 +218,8 @@ export default class ObjectSchema<
   ) {
     const errors = [] as ValidationError[];
     let {
-      sync,
       from = [],
       originalValue = _value,
-      abortEarly = this.spec.abortEarly,
       recursive = this.spec.recursive,
     } = opts;
 
@@ -235,7 +233,7 @@ export default class ObjectSchema<
 
     super._validate(_value, opts, (err, value) => {
       if (err) {
-        if (!ValidationError.isError(err) || abortEarly) {
+        if (!ValidationError.isError(err)) {
           return void callback(err, value);
         }
         errors.push(err);
@@ -281,11 +279,9 @@ export default class ObjectSchema<
 
       runTests(
         {
-          sync,
           tests,
           value,
           errors,
-          endEarly: abortEarly,
           sort: this._sortErrors,
           path: opts.path,
         },

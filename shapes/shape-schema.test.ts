@@ -409,7 +409,7 @@ describe('Object types', () => {
         {
           field: 'test',
         },
-        { abortEarly: false },
+        { },
       ),
     ).resolves.toEqual({ field: 'test', dupField: 'test' });
   });
@@ -573,7 +573,7 @@ describe('Object types', () => {
       ),
 
       expect(
-        inst.validate({ nest: { str: '' } }, { abortEarly: false }),
+        inst.validate({ nest: { str: '' } }, { }),
       ).rejects.toEqual(
         expect.objectContaining({
           value: { nest: { str: '' } },
@@ -591,7 +591,7 @@ describe('Object types', () => {
     });
 
     await expect(
-      inst.validate({ foo: 'foo' }, { abortEarly: false }),
+      inst.validate({ foo: 'foo' }, { }),
     ).rejects.toEqual(
       validationErrorWithMessages(
         'foo must be at least 5 characters',
@@ -610,12 +610,12 @@ describe('Object types', () => {
     let val = { nest: { str: null } };
 
     return Promise.all([
-      expect(inst.validate(val, { abortEarly: false })).rejects.toEqual(
+      expect(inst.validate(val, { })).rejects.toEqual(
         validationErrorWithMessages(expect.any(String), expect.any(String)),
       ),
 
       expect(
-        inst.validate(val, { abortEarly: false, recursive: false }),
+        inst.validate(val, { recursive: false }),
       ).rejects.toEqual(validationErrorWithMessages('oops')),
     ]);
   });
@@ -759,7 +759,7 @@ describe('Object types', () => {
     // ).not.throw();
 
     expect(() =>
-      inst.validateSync({
+      inst.validate({
         unknownDependency: true,
         knownDependency: true,
       }),
@@ -940,7 +940,7 @@ describe('Object types', () => {
     });
 
     expect(
-      await schema.isValid({ permissions: [] }, { abortEarly: false }),
+      await schema.isValid({ permissions: [] }, { }),
     ).toBe(true);
   });
 });

@@ -6,10 +6,6 @@ export interface ValidateOptions<TContext = {}> {
    */
   strict?: boolean;
   /**
-   * Return from validation methods on the first error rather than after all validations run. Default - true
-   */
-  abortEarly?: boolean;
-  /**
    * Remove unspecified keys from objects. Default - false
    */
   stripUnknown?: boolean;
@@ -29,6 +25,5 @@ export interface InternalOptions<TContext = {}>
   originalValue?: any;
   parent?: any;
   path?: string;
-  sync?: boolean;
   from?: { schema: AnySchema; value: any; }[];
 }

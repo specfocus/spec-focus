@@ -1,8 +1,8 @@
 import { default as Ref, default as Reference } from '../references/reference-schema';
 import type { AnySchema } from '../schemas';
-import { ValidationError } from './error';
+import { ValidationError } from '../validations/error';
 import type { ExtraParams, Message } from '../messages';
-import type { InternalOptions, ValidateOptions } from './options';
+import type { TestFunction, TestMap, TestOptions } from './types';
 
 export type CreateErrorOptions = {
   path?: string;
@@ -11,34 +11,10 @@ export type CreateErrorOptions = {
   type?: string;
 };
 
-export type TestContext<TContext = {}> = {
-  path: string;
-  options: ValidateOptions<TContext>;
-  parent: any;
-  schema: AnySchema<any>;
-  resolve: <T>(value: T | Reference<T>) => T;
-  createError: (params?: CreateErrorOptions) => Iterable<ValidationError>;
-};
-
-export type TestFunction<T = unknown, TContext = {}> = (
-  this: TestContext<TContext>,
-  value: T,
-  context: TestContext<TContext>,
-) => Iterable<Error>;
-
-export type TestOptions<TSchema extends AnySchema = AnySchema> = {
-  value: any;
-  path?: string;
-  label?: string;
-  options: InternalOptions;
-  originalValue: any;
-  schema: TSchema;
-};
-
-export type TestConfig<TValue = unknown, TContext = {}> = {
+export type TestConfig<TValue = unknown, Tests extends TestMap = TestMap> = {
   name?: string;
   message?: Message<any>;
-  test: TestFunction<TValue, TContext>;
+  test: TestFunction<TValue, Tests>;
   params?: ExtraParams;
   exclusive?: boolean;
 };

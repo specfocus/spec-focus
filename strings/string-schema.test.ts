@@ -240,7 +240,7 @@ describe('String types', () => {
             .required('Password Required')
             .notOneOf([ref('email')]),
         })
-          .validate({ email: '', password: '' }, { abortEarly: false })
+          .validate({ email: '', password: '' }, { })
           .catch(console.log),
       ).rejects.toEqual(
         TestHelpers.validationErrorWithMessages(

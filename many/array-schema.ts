@@ -91,10 +91,8 @@ export default class ArraySchema<
     callback: Callback,
   ) {
     const errors = [] as ValidationError[];
-    const sync = options.sync;
     const path = options.path;
     const innerType = this.innerType;
-    const endEarly = options.abortEarly ?? this.spec.abortEarly;
     const recursive = options.recursive ?? this.spec.recursive;
 
     let originalValue =
@@ -102,7 +100,7 @@ export default class ArraySchema<
 
     super._validate(_value, options, (err, value) => {
       if (err) {
-        if (!ValidationError.isError(err) || endEarly) {
+        if (!ValidationError.isError(err)) {
           return void callback(err, value);
         }
         errors.push(err);
@@ -136,7 +134,6 @@ export default class ArraySchema<
 
       runTests(
         {
-          sync,
           path,
           value,
           errors,

@@ -14,6 +14,8 @@ import { ensureSync } from '../__test__/test-helpers';
 
 let noop = () => { };
 
+const NOOP = function* () {};
+
 // @ts-ignore
 global.YUP_USE_SYNC &&
   it('[internal] normal methods should be running in sync Mode', async () => {
@@ -155,7 +157,7 @@ describe('Mixed Types ', () => {
       }),
     );
 
-    await expect(inst.validate(5, { abortEarly: false })).rejects.toEqual(
+    await expect(inst.validate(5, { })).rejects.toEqual(
       expect.objectContaining({
         type: undefined,
         message: 'must be a string!',
@@ -216,9 +218,9 @@ describe('Mixed Types ', () => {
       it('should validate synchronously', async () => {
         let schema = number();
 
-        expect(schema.isValidSync('john')).toBe(false);
+        expect(schema.isValid('john')).toBe(false);
 
-        expect(() => schema.validateSync('john')).toThrowError(
+        expect(() => schema.validate('john')).toThrowError(
           /the final value was: `NaN`.+cast from the value `"john"`/,
         );
       });
@@ -226,7 +228,7 @@ describe('Mixed Types ', () => {
       it('should isValid synchronously', async () => {
         let schema = number();
 
-        expect(schema.isValidSync('john')).toBe(false);
+        expect(schema.isValid('john')).toBe(false);
       });
 
       it('should throw on async test', async () => {
@@ -312,7 +314,7 @@ describe('Mixed Types ', () => {
       ),
 
       expect(
-        inst.strict().validate(' hi ', { abortEarly: false }),
+        inst.strict().validate(' hi ', { }),
       ).rejects.toThrowError(/2 errors/),
     ]);
   });
@@ -482,12 +484,11 @@ describe('Mixed Types ', () => {
 
     let third = shape({
       thirdField: literal().test({
-        test() {
+        test: function* () {
           // @ts-ignore
           finalFrom = this.from;
           finalOptions = this.options;
-          return true;
-        },
+        }
       }),
     });
 
@@ -553,7 +554,7 @@ describe('Mixed Types ', () => {
   // @ts-ignore
   !global.YUP_USE_SYNC &&
     it('should fail when the test function returns a rejected Promise', async () => {
-      let inst = string().test(() => {
+      let inst = string().test(function* () {
         return Promise.reject(new Error('oops an error occurred'));
       });
 
@@ -578,7 +579,7 @@ describe('Mixed Types ', () => {
       expect(inst.tests).toHaveLength(0);
 
       inst.withMutation((inst) => {
-        inst.test('a', () => true);
+        inst.test('a', NOOP);
       });
 
       expect(inst.tests).toHaveLength(1);
@@ -590,7 +591,7 @@ describe('Mixed Types ', () => {
 
       expect(inst.tests).toHaveLength(0);
 
-      inst.test('a', () => true);
+      inst.test('a', NOOP);
 
       expect(inst.tests).toHaveLength(0);
     });
@@ -602,9 +603,9 @@ describe('Mixed Types ', () => {
 
       inst.withMutation((inst) => {
         inst.withMutation((inst) => {
-          inst.test('a', () => true);
+          inst.test('a', NOOP);
         });
-        inst.test('b', () => true);
+        inst.test('b', NOOP);
       });
 
       expect(inst.tests).toHaveLength(2);

@@ -28,7 +28,7 @@ export type TypeOf<TSchema extends TypedSchema> = TSchema['__type'];
 
 export type TypedSchema = {
   __type: any;
-  __outputType: any;
+  __outputType: Error;
 };
 
 export type SchemaLike = AnySchema | Lazy<any>;

@@ -141,7 +141,7 @@ describe('Array types', () => {
     );
 
     await expect(
-      inst.validate([{ str: '' }], { abortEarly: false }),
+      inst.validate([{ str: '' }], { }),
     ).rejects.toEqual(
       expect.objectContaining({
         value: [{ str: '' }],

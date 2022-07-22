@@ -83,7 +83,7 @@ class Lazy<T extends AnySchema, TConfig extends Config = ConfigOf<T>>
     value: any,
     options?: ValidateOptions<TConfig['context']>,
   ): T['__outputType'] {
-    return this._resolve(value, options).validateSync(value, options);
+    return this._resolve(value, options).validate(value, options);
   }
 
   validateAt(
@@ -107,7 +107,7 @@ class Lazy<T extends AnySchema, TConfig extends Config = ConfigOf<T>>
   }
 
   isValidSync(value: any, options?: ValidateOptions<TConfig['context']>) {
-    return this._resolve(value, options).isValidSync(value, options);
+    return this._resolve(value, options).isValid(value, options);
   }
 
   describe(
